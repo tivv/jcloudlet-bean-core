@@ -4,7 +4,7 @@
  *
  * Created Oct 7, 2010
  */
-package org.jcloudlet.web.bean;
+package org.jcloudlet.bean;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

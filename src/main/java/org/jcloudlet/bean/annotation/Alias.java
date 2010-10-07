@@ -4,7 +4,7 @@
  *
  * Created Aug 9, 2010
  */
-package org.jcloudlet.web.bean.annotation;
+package org.jcloudlet.bean.annotation;
 
 import java.lang.annotation.*;
 

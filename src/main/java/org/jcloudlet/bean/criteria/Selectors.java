@@ -4,9 +4,9 @@
  *
  * Created Aug 22, 2010
  */
-package org.jcloudlet.web.bean.criteria;
+package org.jcloudlet.bean.criteria;
 
-import org.jcloudlet.web.bean.impl.*;
+import org.jcloudlet.bean.impl.*;
 
 /**
  * @author Sergiy Yevtushenko

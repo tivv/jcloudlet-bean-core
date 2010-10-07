@@ -4,13 +4,13 @@
  *
  * Created Oct 7, 2010
  */
-package org.jcloudlet.web.bean.criteria;
+package org.jcloudlet.bean.criteria;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Map;
 
-import org.jcloudlet.web.bean.Property;
+import org.jcloudlet.bean.Property;
 
 /**
  * @author Sergiy Yevtushenko

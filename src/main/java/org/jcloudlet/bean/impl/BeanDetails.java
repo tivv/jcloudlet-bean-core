@@ -4,15 +4,15 @@
  *
  * Created Aug 20, 2010
  */
-package org.jcloudlet.web.bean.impl;
+package org.jcloudlet.bean.impl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.jcloudlet.web.bean.Bean;
-import org.jcloudlet.web.bean.Property;
+import org.jcloudlet.bean.Bean;
+import org.jcloudlet.bean.Property;
 
 /**
  * @author Sergiy Yevtushenko

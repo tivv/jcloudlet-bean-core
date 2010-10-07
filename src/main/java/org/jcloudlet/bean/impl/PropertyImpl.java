@@ -4,15 +4,15 @@
  *
  * Created Aug 21, 2010
  */
-package org.jcloudlet.web.bean.impl;
+package org.jcloudlet.bean.impl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.text.MessageFormat;
 import java.util.*;
 
-import org.jcloudlet.web.bean.Property;
-import org.jcloudlet.web.bean.annotation.Alias;
+import org.jcloudlet.bean.Property;
+import org.jcloudlet.bean.annotation.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

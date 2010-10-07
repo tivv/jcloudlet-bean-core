@@ -1,9 +1,8 @@
-package org.jcloudlet.web.bean.impl;
+package org.jcloudlet.bean.testbeans;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TemplateName {
-    String value() default "";
+public @interface Ignored {
 }

@@ -4,13 +4,13 @@
  *
  * Created Aug 22, 2010
  */
-package org.jcloudlet.web.bean.impl;
+package org.jcloudlet.bean.impl;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
 
-import org.jcloudlet.web.bean.Bean;
-import org.jcloudlet.web.bean.criteria.Selector;
+import org.jcloudlet.bean.Bean;
+import org.jcloudlet.bean.criteria.Selector;
 
 /**
  * @author Sergiy Yevtushenko

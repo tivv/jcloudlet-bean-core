@@ -4,15 +4,15 @@
  *
  * Created Aug 22, 2010
  */
-package org.jcloudlet.web.bean.impl;
+package org.jcloudlet.bean.impl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-import org.jcloudlet.web.bean.criteria.MethodSelector;
-import org.jcloudlet.web.bean.criteria.Visibility;
+import org.jcloudlet.bean.criteria.MethodSelector;
+import org.jcloudlet.bean.criteria.Visibility;
 
 /**
  * @author Sergiy Yevtushenko

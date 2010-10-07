@@ -1,8 +1,9 @@
-package org.jcloudlet.web.bean.testbeans;
+package org.jcloudlet.bean.impl;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ignored {
+public @interface Fragments {
+    String value() default "";
 }

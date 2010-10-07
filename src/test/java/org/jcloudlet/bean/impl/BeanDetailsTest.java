@@ -5,18 +5,18 @@
  * Created Aug 24, 2010
  */
 
-package org.jcloudlet.web.bean.impl;
+package org.jcloudlet.bean.impl;
 
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.jcloudlet.web.bean.Bean;
-import org.jcloudlet.web.bean.Property;
-import org.jcloudlet.web.bean.impl.BeanDetails;
-import org.jcloudlet.web.bean.testbeans.DerivedSimple;
-import org.jcloudlet.web.bean.testbeans.Simple;
+import org.jcloudlet.bean.Bean;
+import org.jcloudlet.bean.Property;
+import org.jcloudlet.bean.impl.BeanDetails;
+import org.jcloudlet.bean.testbeans.DerivedSimple;
+import org.jcloudlet.bean.testbeans.Simple;
 import org.junit.Test;
 
 /**

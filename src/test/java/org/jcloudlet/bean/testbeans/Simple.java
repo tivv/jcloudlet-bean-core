@@ -4,9 +4,9 @@
  *
  * Created Aug 24, 2010
  */
-package org.jcloudlet.web.bean.testbeans;
+package org.jcloudlet.bean.testbeans;
 
-import org.jcloudlet.web.bean.impl.Fragment;
+import org.jcloudlet.bean.impl.Fragment;
 
 /**
  * @author Sergiy Yevtushenko
