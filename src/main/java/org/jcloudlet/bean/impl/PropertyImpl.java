@@ -8,6 +8,8 @@ package org.jcloudlet.bean.impl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -28,21 +30,44 @@ class PropertyImpl implements Property {
     private final Method setter;
     private final List<Class<?>> typeParameters;
 
-    private static final Set<Class<?>> SIMPLE_TYPES = new HashSet<Class<?>>();
+    static final Set<Class<?>> NUMBERS = new HashSet<Class<?>>();
+    static final Set<Class<?>> DATES = new HashSet<Class<?>>();
+    static final Set<Class<?>> TIMES = new HashSet<Class<?>>();
+    static final Set<Class<?>> OTHER_SIMPLE = new HashSet<Class<?>>();
+    static final Set<Class<?>> SIMPLE_TYPES = new HashSet<Class<?>>();
     
     static {
-        SIMPLE_TYPES.add(String.class);
-        SIMPLE_TYPES.add(Byte.class);
-        SIMPLE_TYPES.add(Character.class);
-        SIMPLE_TYPES.add(Short.class);
-        SIMPLE_TYPES.add(Integer.class);
-        SIMPLE_TYPES.add(Long.class);
-        SIMPLE_TYPES.add(Float.class);
-        SIMPLE_TYPES.add(Double.class);
-        SIMPLE_TYPES.add(Date.class);
-        SIMPLE_TYPES.add(java.sql.Date.class);
-        SIMPLE_TYPES.add(java.sql.Time.class);
-        SIMPLE_TYPES.add(java.sql.Timestamp.class);
+        OTHER_SIMPLE.add(boolean.class);
+        OTHER_SIMPLE.add(String.class);
+        OTHER_SIMPLE.add(char.class);
+        OTHER_SIMPLE.add(Character.class);
+        
+        NUMBERS.add(byte.class);
+        NUMBERS.add(short.class);
+        NUMBERS.add(int.class);
+        NUMBERS.add(long.class);
+        NUMBERS.add(float.class);
+        NUMBERS.add(double.class);
+
+        NUMBERS.add(Byte.class);
+        NUMBERS.add(Short.class);
+        NUMBERS.add(Integer.class);
+        NUMBERS.add(Long.class);
+        NUMBERS.add(Float.class);
+        NUMBERS.add(Double.class);
+        NUMBERS.add(BigDecimal.class);
+        NUMBERS.add(BigInteger.class);
+        
+        DATES.add(Date.class);
+        DATES.add(java.sql.Date.class);
+        
+        TIMES.add(java.sql.Time.class);
+        TIMES.add(java.sql.Timestamp.class);
+        
+        SIMPLE_TYPES.addAll(NUMBERS);
+        SIMPLE_TYPES.addAll(DATES);
+        SIMPLE_TYPES.addAll(TIMES);
+        SIMPLE_TYPES.addAll(OTHER_SIMPLE);
     }
 
     PropertyImpl(Field field, Method getter, Method setter, boolean inherited, List<Class<?>> typeParameters) {
@@ -208,8 +233,24 @@ class PropertyImpl implements Property {
 
     @Override
     public boolean isSimple() {
-        return type().isPrimitive() || SIMPLE_TYPES.contains(type());
+        return SIMPLE_TYPES.contains(type());
     }    
+    
+    @Override
+    public boolean isNumber() {
+        return NUMBERS.contains(type());
+    }    
+
+    @Override
+    public boolean isDate() {
+        return DATES.contains(type());
+    }    
+
+    @Override
+    public boolean isTime() {
+        return TIMES.contains(type());
+    }    
+    
     private Object getViaField(Object base) {
         try {
             if (!field.isAccessible()) {

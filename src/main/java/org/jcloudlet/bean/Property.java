@@ -61,4 +61,10 @@ public interface Property {
     boolean isBoolean();
 
     boolean isSimple();
+
+    boolean isNumber();
+
+    boolean isDate();
+
+    boolean isTime();
 }

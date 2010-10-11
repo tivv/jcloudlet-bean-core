@@ -116,7 +116,7 @@ public final class BeanDetails implements Bean {
         putAll(methods, clazz.getMethods());
         addAll(declared, clazz.getDeclaredAnnotations());
         addAll(annotations, clazz.getAnnotations());
-        collectProperties();
+        collectProperties(fields.values());
         
         cache.put(clazz, this);
         return this;
@@ -129,11 +129,6 @@ public final class BeanDetails implements Bean {
         
         collectFieldsRecursively(clazz.getSuperclass());
         putAll(fields, clazz.getDeclaredFields());
-    }
-
-    private void collectProperties() {
-        collectProperties(fields.values());
-        collectProperties(fieldsDeclared.values());
     }
 
     private void collectProperties(Collection<Field> values) {
