@@ -37,6 +37,10 @@ class PropertyImpl implements Property {
     static final Set<Class<?>> OTHER_SIMPLE = new HashSet<Class<?>>();
     static final Set<Class<?>> SIMPLE_TYPES = new HashSet<Class<?>>();
 
+    private final String name;
+
+    private final Class<?> type;
+
     static {
         OTHER_SIMPLE.add(boolean.class);
         OTHER_SIMPLE.add(String.class);
@@ -72,12 +76,18 @@ class PropertyImpl implements Property {
     }
 
     PropertyImpl(Field field, Method getter, Method setter, boolean inherited, List<Class<?>> typeParameters) {
+        this(field.getName(), field.getType(), field, getter, setter, inherited, typeParameters);
+    }
+
+    PropertyImpl(String name, Class<?> type, Field field, Method getter, Method setter, boolean inherited, List<Class<?>> typeParameters) {
         this.field = field;
         this.getter = getter;
         this.setter = setter;
         this.inherited = inherited;
         this.typeParameters = typeParameters;
         this.alias = aliasImpl();
+        this.name = name;
+        this.type = type;
     }
 
     @Override
@@ -91,7 +101,10 @@ class PropertyImpl implements Property {
             return (T) setter.getAnnotation(type);
         }
 
-        return (T) field.getAnnotation(type);
+        if (field != null) {
+            return (T) field.getAnnotation(type);
+        }
+        return null;
     }
 
     @Override
@@ -150,7 +163,7 @@ class PropertyImpl implements Property {
 
     @Override
     public String name() {
-        return field.getName();
+        return name;
     }
 
     @Override
@@ -174,7 +187,7 @@ class PropertyImpl implements Property {
 
     @Override
     public Class<?> type() {
-        return field.getType();
+        return type;
     }
 
     @Override

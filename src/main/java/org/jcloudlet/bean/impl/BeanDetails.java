@@ -6,6 +6,7 @@
  */
 package org.jcloudlet.bean.impl;
 
+import java.beans.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -132,12 +133,67 @@ public final class BeanDetails implements Bean {
     }
 
     private void collectProperties(Collection<Field> values) {
+        Map<String, PropertyDescriptor> propertyDescriptors = collectIntrospectionData();
         for (Field field : values) {
-            Property prop = processField(field);
+            Property prop = processField(field, propertyDescriptors);
             if (prop != null) {
                 properties.put(prop.name(), prop);
             }
         }
+        //Now properties that don't have field
+        for (PropertyDescriptor descriptor : propertyDescriptors.values()) {
+            Property prop = processDescriptor(descriptor);
+            if (prop != null) {
+                properties.put(prop.name(), prop);
+            }
+        }
+    }
+
+    /**
+     * @param descriptor
+     * @return
+     */
+    private Property processDescriptor(PropertyDescriptor descriptor)
+    {
+        String name = descriptor.getName();
+        Method getter = descriptor.getReadMethod();
+        Method setter = descriptor.getWriteMethod();
+        boolean inherited = 
+            (getter == null || !methodsDeclared.containsKey(getter))
+            && (setter == null || !methodsDeclared.containsKey(setter));
+        Type genericType = null;
+        if (getter != null) {
+            genericType = getter.getGenericReturnType();
+        } else if (setter != null) {
+            genericType = setter.getGenericParameterTypes()[0];
+        }
+        List<Class<?>> typeParameters = (genericType instanceof ParameterizedType) ?
+            listTypes((ParameterizedType) genericType) :
+            Collections.<Class<?>>emptyList();
+                                                    
+        return new PropertyImpl(name, descriptor.getPropertyType(), null, 
+            getter, setter, inherited, typeParameters);
+    }
+
+    /**
+     * @return
+     */
+    private Map<String, PropertyDescriptor> collectIntrospectionData()
+    {
+        Map <String, PropertyDescriptor> propertyDescriptors;
+        try
+        {
+            BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+            propertyDescriptors = new HashMap<String, PropertyDescriptor>();
+            for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
+                propertyDescriptors.put(descriptor.getName(), descriptor);
+            }
+        }
+        catch (IntrospectionException e)
+        {
+            propertyDescriptors = Collections.emptyMap();
+        }
+        return propertyDescriptors;
     }
 
     private boolean filtered(Field field) {
@@ -185,14 +241,22 @@ public final class BeanDetails implements Bean {
         return buf.toString();
     }
 
-    private Property processField(Field field) {
+    private Property processField(Field field, Map<String, PropertyDescriptor> propertyDescriptors) {
         if (filtered(field)) {
             return null;
         }
         
         String name = field.getName();
-        Method getter = getter(field, makeName(isBoolean(field.getType()) ? "is" : "get", name));
-        Method setter = setter(field, makeName("set", name));
+        PropertyDescriptor descriptor = propertyDescriptors.remove(name);
+        Method getter;
+        Method setter;
+        if (descriptor != null) {
+            getter = descriptor.getReadMethod();
+            setter = descriptor.getWriteMethod();
+        } else {
+            getter = getter(field, makeName(isBoolean(field.getType()) ? "is" : "get", name));
+            setter = setter(field, makeName("set", name));
+        }
         boolean inherited = !fieldsDeclared.containsKey(name);
         List<Class<?>> typeParameters = (field.getGenericType() instanceof ParameterizedType) ? 
                                                     listTypes((ParameterizedType) field.getGenericType()) :

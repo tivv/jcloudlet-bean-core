@@ -72,7 +72,7 @@ public class MethodSelectorImpl extends AbstractSelector<Method> implements Meth
     private boolean checkVisibility(Method method) {
         int mod = method.getModifiers();
         
-        return matchesPublic(mod) || matchesProtected(mod) || matchesPrivate(mod) || visibility.contains(Visibility.DEFAULT);
+        return matchesPublic(mod) || matchesProtected(mod) || matchesPrivate(mod) || matchesDefault(mod);
     }
 
     private boolean checkVisibilityAndParameters(Method method) {
@@ -103,6 +103,12 @@ public class MethodSelectorImpl extends AbstractSelector<Method> implements Meth
         return Modifier.isPublic(mod) && visibility.contains(Visibility.PUBLIC);
     }
 
+    private boolean matchesDefault(int mod) {
+        return !Modifier.isPublic(mod)
+            && !Modifier.isProtected(mod)
+            && !Modifier.isPrivate(mod)
+            && visibility.contains(Visibility.DEFAULT);
+    }
     private boolean searchAnnotation(Method method) {
         for (Class<? extends Annotation> ann : annotations()) {
             if (method.isAnnotationPresent(ann)) {
