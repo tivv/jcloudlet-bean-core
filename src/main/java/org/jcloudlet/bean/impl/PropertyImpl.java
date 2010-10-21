@@ -137,6 +137,16 @@ class PropertyImpl implements Property {
     }
 
     @Override
+    public boolean hasAny(Iterable<Class<? extends Annotation>> annotations)
+    {
+        for (Class<? extends Annotation> annotation: annotations) {
+            if (has(annotation))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean inherited() {
         return inherited;
     }

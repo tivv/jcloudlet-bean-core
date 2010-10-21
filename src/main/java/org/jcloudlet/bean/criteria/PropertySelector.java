@@ -27,7 +27,7 @@ public interface PropertySelector extends Selector<Property> {
 
     PropertySelector declared();
 
-    PropertySelector ignore(Class<? extends Annotation> ignore);
+    PropertySelector ignore(Class<? extends Annotation>... ignore);
 
     PropertySelector ofType(Class<?> type);
 

@@ -10,6 +10,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Sergiy Yevtushenko
@@ -27,6 +28,8 @@ public interface Property {
     Method getter();
 
     boolean has(Class<? extends Annotation> annotation);
+    
+    boolean hasAny(Iterable<Class<? extends Annotation>> annotations);
 
     boolean inherited();
 

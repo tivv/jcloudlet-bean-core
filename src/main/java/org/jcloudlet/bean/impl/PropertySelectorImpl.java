@@ -18,7 +18,7 @@ import org.jcloudlet.bean.criteria.PropertySelector;
 public class PropertySelectorImpl extends AbstractSelector<Property> implements PropertySelector {
     private boolean checkGetter;
     private boolean checkSetter;
-    private Class<? extends Annotation> ignore;
+    private List<Class<? extends Annotation>> ignored;
     private Class<?> type;
 
     public PropertySelectorImpl(Class<?> clazz) {
@@ -46,11 +46,13 @@ public class PropertySelectorImpl extends AbstractSelector<Property> implements 
     }
     
     @Override
-    public PropertySelector ignore(Class<? extends Annotation> ignore) {
-        this.ignore = ignore;
+    public PropertySelector ignore(Class<? extends Annotation>... ignore) {
+        if (this.ignored == null)
+            this.ignored = new ArrayList<Class<? extends Annotation>>();
+        this.ignored.addAll(Arrays.asList(ignore));
         return this;
     }
-    
+
     @Override
     public PropertySelector ofType(Class<?> type) {
         this.type = type; 
@@ -123,7 +125,7 @@ public class PropertySelectorImpl extends AbstractSelector<Property> implements 
     }
 
     private boolean checkTypesAndAnnotations(Property property) {
-        if (ignore != null && property.has(ignore)) {
+        if (ignored != null && property.hasAny(ignored)) {
             return false;
         }
         
