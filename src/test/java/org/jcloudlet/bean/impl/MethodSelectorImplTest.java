@@ -13,6 +13,7 @@ public class MethodSelectorImplTest
     public void testWithVisibility() {
         abstract class TestedClass {
             abstract void defaultVisibility();
+            @SuppressWarnings("unused")
             private void privateVisibility() {};
             protected abstract void protectedVisibility();
             public abstract void publicVisibility();

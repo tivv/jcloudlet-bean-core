@@ -85,8 +85,8 @@ class PropertyImpl implements Property {
         this.setter = setter;
         this.inherited = inherited;
         this.typeParameters = typeParameters;
-        this.alias = aliasImpl();
         this.name = name;
+        this.alias = aliasImpl();
         this.type = type;
     }
 
