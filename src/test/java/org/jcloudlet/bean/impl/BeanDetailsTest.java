@@ -9,8 +9,7 @@ package org.jcloudlet.bean.impl;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import org.jcloudlet.bean.Bean;
 import org.jcloudlet.bean.Property;
@@ -47,11 +46,7 @@ public class BeanDetailsTest {
         
         Bean details = BeanDetails.forClass(Simple.class);
         
-        assertEquals(names.size(), details.properties().size());
-        
-        for (String name : names) {
-            assertNotNull(details.property(name));
-        }
+        assertEquals(names, listNames(details.properties()));
     }
 
     @Test
@@ -93,5 +88,15 @@ public class BeanDetailsTest {
         Property prop = BeanDetails.forClass(Simple.class).property("field1");
 
         assertEquals(String.class, prop.type());
+    }
+
+    private List<String> listNames(Collection<Property> properties) {
+        List<String> list = new ArrayList<String>();
+        
+        for (Property property : properties) {
+            list.add(property.name());
+        }
+
+        return list;
     }
 }

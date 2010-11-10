@@ -54,19 +54,17 @@ public final class BeanDetails implements Bean {
 
     private static void putAll(Map<String, Field> map, Field[] arr) {
         for (Field field : arr) {
-            if (field.getName().indexOf('$') >= 0) {
-                continue;
+            if (!field.isSynthetic()) {
+                map.put(field.getName(), field);
             }
-            map.put(field.getName(), field);
         }
     }
 
     private static void putAll(Map<String, Method> map, Method[] arr) {
         for (Method method : arr) {
-            if (method.getName().indexOf('$') >= 0) {
-                continue;
+            if (!method.isSynthetic()) {
+                map.put(method.getName(), method);
             }
-            map.put(method.getName(), method);
         }
     }
 
@@ -186,7 +184,9 @@ public final class BeanDetails implements Bean {
             BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
             propertyDescriptors = new HashMap<String, PropertyDescriptor>();
             for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
-                propertyDescriptors.put(descriptor.getName(), descriptor);
+                if (Class.class != descriptor.getPropertyType()) { 
+                    propertyDescriptors.put(descriptor.getName(), descriptor);
+                }
             }
         }
         catch (IntrospectionException e)
